@@ -1,5 +1,8 @@
 #lang racket
 
+(require rackunit)
+(require rackunit/text-ui)
+
 ;----------- INÍCIO TRECHOS DE CÓDIGO COMUNS ENTRE EXERCÍCIOS ------------;
 
 
