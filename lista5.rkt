@@ -24,15 +24,6 @@
   )
 )
 
-(define >?-tests
-  (test-suite
-    ">? tests"
-    (check-equal? (>? 0 0) #f)
-    (check-equal? (>? 0 2) #f)
-    (check-not-equal? (>? 2 0) #t)
-  )
-)
-
 (define (>? a b)
   (cond
     [(zero? a) #f]
@@ -77,9 +68,25 @@
 ;;;;;;;;;;;;;;;;;;;;;;
 ;; Exercício 5.2
 
-;;
-;;
-;;
+;; Lista, número -> Lista
+;; Devolve os n primeiros elementos da lista
+
+(define take-tests
+  (test-suite
+    "take-tests tests"
+    (check-equal? (take (list 1 2 3) 2) '(1 2))
+    (check-equal? (take (list 1 2 3 4 5) 3) '(1 2 3))
+    (check-equal? (take (list 1 3 2 5 6) 4) '(1 3 2 5))
+    (check-equal? (take (list 1 3 2 5 6) 0) empty)
+  )
+)
+
+(define (take lst n)
+    (cond
+         [(zero? n) empty]
+         [else (cons (first lst) (take (rest lst) (sub1 n)))]
+    )
+)
 
 ;;;;;;;;;;;;;;;;;;;;;;
 ;; Exercício 5.3
@@ -107,9 +114,39 @@
 ;;;;;;;;;;;;;;;;;;;;;;
 ;; Exercício 5.4
 
-;;
-;;
-;;
+;; Lista, número -> Lista
+;; Devolve a lista sem o elemento da posição (número)
+
+(define remove-at-tests
+  (test-suite
+    "remove-at tests"
+    (check-equal? (remove-at (list 1 2 3) 2) '(1 2))
+    (check-equal? (remove-at (list 1 2 3 4 5) 3) '(1 2 3 5))
+    (check-equal? (remove-at (list 1 3 2 5 6) 0) '(3 2 5 6))
+    (check-equal? (remove-at (list 1 2 3 4 5) 50) '(1 2 3 4 5))
+    (check-equal? (remove-at (list 1 2 3 4 5) -1) '(1 2 3 4 5))
+  )
+)
+
+
+(define (remove-at lst pos)
+    (define (internal-remove-at lst n)
+        (cond
+           [(empty? lst) empty]
+           [else 
+                  (cond
+                       [(= pos n) (internal-remove-at (rest lst) (add1 n))]
+                       [else
+                            (cons (first lst) (internal-remove-at (rest lst) (add1 n)))
+                       ]
+                  )
+           ]
+        )
+    )
+
+  (internal-remove-at lst 0)
+)
+
 
 ;;;;;;;;;;;;;;;;;;;;;;
 ;; Exercício 5.5
@@ -137,9 +174,36 @@
 ;;;;;;;;;;;;;;;;;;;;;;
 ;; Exercício 5.6
 
-;;
-;;
-;;
+;; Lista, número, número -> Lista
+;; Devolve a parte da lista dentro do intervalo dos números, inclusive
+
+(define sub-list-tests
+  (test-suite
+    "sub-list tests"
+    (check-equal? (sub-list (list 1 2 3) 0 1) '(1 2))
+    (check-equal? (sub-list (list 1 2 3 4 5) 3 4) '(4 5))
+    (check-equal? (sub-list (list 1 2 3 4 5 6) 2 2) '(3))
+    (check-equal? (sub-list (list 1 2 3 4 5 6) 0 5) '(1 2 3 4 5 6))
+    (check-equal? (sub-list (list 1 2 3 4 5 6) -2 2) '(1 2 3))
+    (check-equal? (sub-list (list 1 2 3 4 5 6) 2 200) '(3 4 5 6))
+  )
+)
+
+(define (sub-list lst inicio final)
+  (define (internal-sub-list lst index)
+       (cond
+         [(empty? lst) empty]
+         [else
+             (cond
+                 [(and (>= index inicio) (<= index final)) (cons (first lst) (internal-sub-list (rest lst) (add1 index)))]
+                 [else (internal-sub-list (rest lst) (add1 index))]
+             )
+         ]
+    )
+  )
+
+  (internal-sub-list lst 0)
+)
 
 ;;;;;;;;;;;;;;;;;;;;;;
 ;; Exercício 5.7
@@ -167,9 +231,29 @@
 ;;;;;;;;;;;;;;;;;;;;;;
 ;; Exercício 5.8
 
-;;
-;;
-;;
+;; Lista, Lista -> Lista
+;; Devolve uma Lista contendo os itens das listas passadas
+
+(define my-append-tests
+  (test-suite
+    "my-append tests"
+    (check-equal? (my-append (list 1 2 3) (list 1 2 3)) '(1 2 3 1 2 3))
+    (check-equal? (my-append (list 1 2 3) (list 4 5 6)) '(1 2 3 4 5 6))
+    (check-equal? (my-append (list 4 5 6) (list 1 2 3)) '(4 5 6 1 2 3))
+    (check-equal? (my-append (list 1 2 3) empty) '(1 2 3))
+    (check-equal? (my-append empty (list 1 2 3)) '(1 2 3))
+    (check-equal? (my-append empty empty) empty)
+  )
+)
+
+(define (my-append lst1 lst2)
+    (cond
+      [(empty? lst1) lst2]
+      [else
+          (cons (first lst1) (my-append (rest lst1) lst2))
+      ]
+    )
+)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;
