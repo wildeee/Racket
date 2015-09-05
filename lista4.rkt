@@ -36,9 +36,52 @@
 ;;;;;;;;;;;;;;;;;;;;;;
 ;; Exercício 4.2
 
-;;
-;;
-;;
+;;Número -> Número
+;;Devolve o resultado da operação escolhida (+ - ou *)
+
+(define primitive-tests
+  (test-suite 
+    "primitive-tests"
+    (check-equal? (plus 4 3) 7)
+    (check-equal? (less 4 3) 1)
+    (check-equal? (times 4 3) 12)
+    (check-equal? (times 0 3) 0)
+    (check-equal? (times 4 0) 0)
+    (check-equal? (times 4 1) 4)
+    (check-equal? (times 1 4) 4)
+    (check-not-equal? (plus 2 3) 7)
+    (check-not-equal? (less 2 3) 1)
+    (check-not-equal? (times 1 3) 12)
+  )
+)
+
+(define (plus n1 n2)
+    (cond
+         [(zero? n2) n1]
+         [else (plus (add1 n1) (sub1 n2))]
+    )
+)
+
+(define (less n1 n2)
+    (cond
+         [(zero? n2) n1]
+         [else (less (sub1 n1) (sub1 n2))]
+    )
+)
+(define (times n1 n2)
+  (define (internal-times soma n)
+       (cond
+            [(zero? (sub1 n)) soma]
+            [else (internal-times (plus soma n1) (sub1 n))]
+       )
+  )
+   (cond
+        [(zero? n2) 0]
+        [(zero? n1) 0]
+        [(zero? (sub1 n2)) n1]
+        [else (internal-times (plus n1 n1) (sub1 n2))]
+    )
+)
 
 ;;;;;;;;;;;;;;;;;;;;;;
 ;; Exercício 4.3
@@ -81,9 +124,45 @@
 ;;;;;;;;;;;;;;;;;;;;;;
 ;; Exercício 4.4
 
-;;
-;;
-;;
+;;Número -> booleano
+;;Retorna #t se o núnero for perfeito (soma de seus divisores próprios é igual a ele)
+
+
+(define perfeito?-tests
+  (test-suite 
+    "perfeito?-tests"
+    (check-equal? (perfeito? 6) #t)
+    (check-equal? (perfeito? 28) #t)
+    (check-equal? (perfeito? 8) #f)
+  )
+)
+
+(define (perfeito? num)
+  (define (soma-array lst)
+        (cond
+          [(empty? (rest lst)) (first lst)]
+          [else (+ (first lst) (soma-array (rest lst)))]
+        )
+   )
+  (define (divisores n)
+      (define (internal-divisores n)
+           (cond
+                [(>= n num) empty]
+                [else
+                 (cond
+                      [(= 0 (modulo num n)) (cons n (internal-divisores (add1 n)))]
+                      [else (internal-divisores (add1 n))]
+                 )
+                 
+                ]
+           )
+      )
+    (internal-divisores 1)
+  )
+    (= num (soma-array (divisores num)))
+)
+
+
 
 ;;;;;;;;;;;;;;;;;;;;;;
 ;; Exercício 4.5
