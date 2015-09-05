@@ -382,43 +382,59 @@
                  #t)
 ; Adaptado, de http://videos.web-03.net/artigos/Higor_Medeiros/ArvoreBinaria/ArvoreBinaria1.jpg
 
-   (check-equal? (search-bin-tree? empty) #f)
-   (check-equal? (search-bin-tree? (bin-tree (bin-tree empty empty 10) (bin-tree empty empty 14) 8)) #f)
-  ))
+   ;(check-equal? (search-bin-tree? empty) #f)
+   ;(check-equal? (search-bin-tree? (bin-tree (bin-tree empty empty 10) (bin-tree empty empty 14) 8)) #f)
+;  ))
 
-(define (check-sub-tree operation bin elem) ;Retorna #t se operation retornar #t para a operacao (<= ou >) de todos os elementos de bin sobre elem
-    (cond 
-        [(and (empty? (bin-tree-l bin)) (empty? (bin-tree-r bin))) (operation elem (bin-tree-val bin))]
-        [else (cond
-                   [(empty? (bin-tree-r bin)) (and (operation elem (bin-tree-val bin)) (check-sub-tree operation (bin-tree-l bin) elem))]        
-                   [(empty? (bin-tree-l bin)) (and (operation elem (bin-tree-val bin)) (check-sub-tree operation (bin-tree-r bin) elem))]
-                   [else
-                        (and 
-                             (operation elem (bin-tree-val bin))
-                             (check-sub-tree operation (bin-tree-l bin) elem)  
-                             (check-sub-tree operation (bin-tree-r bin) elem)
-                        ) 
-                   ]
-        )]
-    )
-)
+;(define (check-sub-tree operation bin elem) ;Retorna #t se operation retornar #t para a operacao (<= ou >) de todos os elementos de bin sobre elem
+;    (cond 
+;        [(and (empty? (bin-tree-l bin)) (empty? (bin-tree-r bin))) (operation elem (bin-tree-val bin))]
+;        [else (cond
+;                   [(empty? (bin-tree-r bin)) (and (operation elem (bin-tree-val bin)) (check-sub-tree operation (bin-tree-l bin) elem))]        
+;                   [(empty? (bin-tree-l bin)) (and (operation elem (bin-tree-val bin)) (check-sub-tree operation (bin-tree-r bin) elem))]
+;                   [else
+;                        (and 
+;                             (operation elem (bin-tree-val bin))
+;                             (check-sub-tree operation (bin-tree-l bin) elem)  
+;                             (check-sub-tree operation (bin-tree-r bin) elem)
+;                        ) 
+;                   ]
+;        )]
+;    )
+;)
 
-(define (search-bin-tree? bin)
-    (cond 
-        [(and (empty? (bin-tree-l bin)) (empty? (bin-tree-r bin))) #t]
-        [else (cond
-                  [(empty? (bin-tree-r bin)) (and (check-sub-tree <= (bin-tree-l bin) (bin-tree-val bin)) (search-bin-tree? (bin-tree-l bin)))]  
-                  [(empty? (bin-tree-l bin)) (and (check-sub-tree > (bin-tree-r bin) (bin-tree-val bin)) (search-bin-tree? (bin-tree-r bin)))]
-                  [else (and 
-                              (check-sub-tree <= (bin-tree-l bin) (bin-tree-val bin))
-                              (check-sub-tree > (bin-tree-r bin) (bin-tree-val bin))
-                              (search-bin-tree? (bin-tree-l bin))
-                              (search-bin-tree? (bin-tree-r bin))
-                         
-                  )]
-        )]
-    )
-)
+;(define testee (bin-tree (bin-tree
+;                                              (bin-tree empty empty 1)
+;                                              (bin-tree
+;                                               (bin-tree empty empty 4)
+;                                               (bin-tree empty empty 7)
+;                                               6)
+;                                              3)
+;                                             (bin-tree
+;                                              empty
+;                                              (bin-tree
+;                                               (bin-tree empty empty
+;                                                13) empty
+;                                               14)
+;                                              10)
+;                                             8))
+
+;(define (search-bin-tree? bin)
+;    (cond 
+;        [(and (empty? (bin-tree-l bin)) (empty? (bin-tree-r bin))) #t]
+;        [else (cond
+;                  [(empty? (bin-tree-r bin)) (and (check-sub-tree <= (bin-tree-l bin) (bin-tree-val bin)) (search-bin-tree? (bin-tree-l bin)))]  
+;                  [(empty? (bin-tree-l bin)) (and (check-sub-tree > (bin-tree-r bin) (bin-tree-val bin)) (search-bin-tree? (bin-tree-r bin)))]
+;                  [else (and 
+;                              (check-sub-tree <= (bin-tree-l bin) (bin-tree-val bin))
+;                              (check-sub-tree > (bin-tree-r bin) (bin-tree-val bin))
+;                              (search-bin-tree? (bin-tree-l bin))
+;                              (search-bin-tree? (bin-tree-r bin))
+;                         
+;                  )]
+;        )]
+;    )
+;)
 
 ;;;;;;;;;;;;;;;;;;;;;;
 ;; Exercício 3.17
