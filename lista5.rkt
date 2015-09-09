@@ -294,3 +294,20 @@
     [else (ordem-cresc (append lst1 lst2))]
   )
 )
+
+
+(define (executa-testes . testes)
+  (run-tests (test-suite "Todos os testes" testes))
+  (void))
+
+(executa-testes
+                >?-tests
+                take-tests
+                drop-tests
+                remove-at-tests
+                insert-at-tests
+                sub-list-tests
+                rotate-left-tests
+                my-append-tests
+                merge-tests
+                )

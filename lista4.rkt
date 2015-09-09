@@ -182,3 +182,17 @@
 (define (conta-primo ini fim)
   (length (filter prime? (range ini fim)))
 )
+
+
+(define (executa-testes . testes)
+  (run-tests (test-suite "Todos os testes" testes))
+  (void))
+
+(executa-testes
+                fatorial-tests
+                primitive-tests
+                e-par?-tests
+                e-impar?-tests
+                perfeito?-tests
+                conta-primo-tests 
+                )

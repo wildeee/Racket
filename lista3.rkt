@@ -74,7 +74,7 @@
     (check-equal? (add-fim 1 empty) (list 1))
     (check-equal? (add-fim 3 (list 5)) (list 5 3))
     (check-equal? (add-fim 8 (list 2 5)) (list 2 5 8))
-    (check-exn exn:fail? (add-fim 1 empty) (list 2))
+    (check-equal? (add-fim 1 empty) (list 1))
   )
 )
 
@@ -96,8 +96,8 @@
   (test-suite
     "inverte tests"
     (check-equal? (inverte empty) empty)
-    (check-equal? (inverte (2)) (2))
-    (check-equal? (inverte (2 8 9)) (9 8 2))
+    (check-equal? (inverte '(2)) '(2))
+    (check-equal? (inverte '(2 8 9)) '(9 8 2))
   )
 )
 
@@ -119,8 +119,8 @@
   (test-suite
     "palindromo tests"
     (check-equal? (palindromo empty) #t)
-    (check-equal? (palindromo (2)) #t)
-    (check-equal? (palindromo (1 2)) #f)
+    (check-equal? (palindromo '(2)) #t)
+    (check-equal? (palindromo '(1 2)) #f)
   )
 )
 
@@ -211,7 +211,7 @@
 (define maximo-tests
   (test-suite
     "maximo tests"
-    (check-exn exn:fail? (maximo (list 1 2 3)) 2)
+    (check-equal? (maximo (list 1 2 3)) 3)
     (check-equal? (maximo (list 4)) 4)
     (check-equal? (maximo (list 2 4 8 3)) 8)
   )
@@ -272,7 +272,7 @@
     (check-equal? (ordem-cresc empty) empty)
     (check-equal? (ordem-cresc (list 2)) (list 2))
     (check-equal? (ordem-cresc (list 1 5 3 2)) (list 1 2 3 5))
-    (check-exn exn:fail? (ordem-cresc (list 3 2 1)) (list 1 3 2))
+    (check-equal? (ordem-cresc (list 3 2 1)) (list 1 2 3))
   )
 )
 
@@ -361,25 +361,25 @@
 ;;Qualquer bin-tree -> booleano
 ;;Devolve #t se bin for uma árvore binária de busca, #f caso contrário
 
-(define search-bin-tree?-tests
-  (test-suite
-   "search-bin-tree? tests"
-   (check-equal? (search-bin-tree? (bin-tree (bin-tree
-                                              (bin-tree empty empty 1)
-                                              (bin-tree
-                                               (bin-tree empty empty 4)
-                                               (bin-tree empty empty 7)
-                                               6)
-                                              3)
-                                             (bin-tree
-                                              empty
-                                              (bin-tree
-                                               (bin-tree empty empty
-                                                13) empty
-                                               14)
-                                              10)
-                                             8))
-                 #t)
+;(define search-bin-tree?-tests
+;  (test-suite
+;   "search-bin-tree? tests"
+;   (check-equal? (search-bin-tree? (bin-tree (bin-tree
+;                                              (bin-tree empty empty 1)
+;                                              (bin-tree
+;                                               (bin-tree empty empty 4)
+;                                               (bin-tree empty empty 7)
+;                                               6)
+;                                              3)
+;                                             (bin-tree
+;                                              empty
+;                                              (bin-tree
+;                                               (bin-tree empty empty
+;                                                13) empty
+;                                               14)
+;                                              10)
+;                                             8))
+;                 #t)
 ; Adaptado, de http://videos.web-03.net/artigos/Higor_Medeiros/ArvoreBinaria/ArvoreBinaria1.jpg
 
    ;(check-equal? (search-bin-tree? empty) #f)
@@ -444,3 +444,22 @@
 ;;
 
 
+(define (executa-testes . testes)
+  (run-tests (test-suite "Todos os testes" testes))
+  (void))
+
+(executa-testes
+                contem-tests
+                remove-todos-tests                
+                add-fim-tests
+                inverte-tests
+                palindromo-tests
+                lista-add-num-tests
+                impares-tests
+                return-last-tests
+                maximo-tests
+                insere-ordenado-tests
+                ordem-cresc-tests
+                remove-duplicates-tests
+                inverte-list-tests
+                )
